@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">薪资小组件</string>
+    <string name="widget_name">今日已赚</string>
+    <string name="widget_description">实时显示你今天赚了多少，缓解上班怨气</string>
+
+    <!-- 通用 -->
+    <string name="save">保存</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确认</string>
+
+    <!-- 设置页 -->
+    <string name="salary_settings">薪资设置</string>
+    <string name="pre_tax">税前月薪</string>
+    <string name="post_tax">税后到手</string>
+    <string name="monthly_salary">月薪</string>
+    <string name="yuan_per_month">元/月</string>
+    <string name="yuan">元</string>
+
+    <string name="work_time">工作时间</string>
+    <string name="work_start">上班时间</string>
+    <string name="work_end">下班时间</string>
+
+    <string name="lunch_time">午休时间</string>
+    <string name="lunch_start">午休开始</string>
+    <string name="lunch_end">午休结束</string>
+
+    <string name="insurance">五险一金</string>
+    <string name="fixed_amount">固定金额</string>
+    <string name="rate_mode">比例模式</string>
+    <string name="pension">养老保险</string>
+    <string name="medical">医疗保险</string>
+    <string name="unemployment">失业保险</string>
+    <string name="housing_fund">住房公积金</string>
+
+    <!-- Widget -->
+    <string name="today_earned">今日已赚</string>
+    <string name="hourly_rate">时薪</string>
+    <string name="remaining">剩余</string>
+    <string name="before_work">还没开始工作</string>
+    <string name="working">赚钱中…</string>
+    <string name="lunch_break">午休中…</string>
+    <string name="after_work">今日已完成 ✅</string>
+    <string name="not_configured">点击设置薪资</string>
+
+    <!-- 澎湃OS -->
+    <string name="hyperos_guide">澎湃OS 设置建议</string>
+    <string name="battery_optimization">1. 关闭电池优化</string>
+    <string name="auto_start">2. 开启自启动权限</string>
+    <string name="lock_screen_whitelist">3. 锁屏清理白名单</string>
+</resources>

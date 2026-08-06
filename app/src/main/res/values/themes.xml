@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 基础 Android 主题，实际样式由 Compose 处理 -->
+    <style name="Theme.SalaryWidget" parent="android:Theme.Material.NoActionBar">
+        <item name="android:statusBarColor">#1A1A2E</item>
+        <item name="android:navigationBarColor">#1A1A2E</item>
+    </style>
+</resources>
