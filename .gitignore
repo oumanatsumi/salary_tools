@@ -10,3 +10,6 @@
 local.properties
 /app/build
 /app/release
+
+# 本地工具目录（SDK、Gradle 等）
+/.tools/

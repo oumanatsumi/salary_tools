@@ -1,0 +1,100 @@
+Picked up _JAVA_OPTIONS: -Xmx256m -Xms128m -XX:+UseSerialGC
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.9/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :app:checkDebugAarMetadata UP-TO-DATE
+> Task :app:generateDebugResValues UP-TO-DATE
+> Task :app:mapDebugSourceSetPaths UP-TO-DATE
+> Task :app:generateDebugResources UP-TO-DATE
+> Task :app:mergeDebugResources UP-TO-DATE
+> Task :app:packageDebugResources UP-TO-DATE
+> Task :app:parseDebugLocalResources UP-TO-DATE
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+> Task :app:processDebugMainManifest UP-TO-DATE
+> Task :app:processDebugManifest UP-TO-DATE
+> Task :app:javaPreCompileDebug UP-TO-DATE
+> Task :app:mergeDebugShaders UP-TO-DATE
+> Task :app:compileDebugShaders NO-SOURCE
+> Task :app:generateDebugAssets UP-TO-DATE
+> Task :app:mergeDebugAssets UP-TO-DATE
+> Task :app:processDebugManifestForPackage
+> Task :app:compressDebugAssets UP-TO-DATE
+> Task :app:desugarDebugFileDependencies UP-TO-DATE
+> Task :app:checkDebugDuplicateClasses UP-TO-DATE
+> Task :app:processDebugResources
+
+The Daemon will expire after the build after running out of JVM heap space.
+The project memory settings are likely not configured or are configured to an insufficient value.
+The daemon will restart for the next build, which may increase subsequent build times.
+These settings can be adjusted by setting 'org.gradle.jvmargs' in 'gradle.properties'.
+The currently configured max heap space is '170.6 MiB' and the configured max metaspace is 'unknown'.
+For more information on how to set these values, please refer to https://docs.gradle.org/8.9/userguide/build_environment.html#sec:configuring_jvm_memory in the Gradle documentation.
+To disable this warning, set 'org.gradle.daemon.performance.disable-logging=true'.
+
+> Task :app:mergeExtDexDebug
+
+Problem in daemon expiration check
+java.lang.OutOfMemoryError: Java heap space
+	at java.base/java.io.BufferedInputStream.getBufIfOpen(BufferedInputStream.java:181)
+	at java.base/java.io.BufferedInputStream.getBufIfOpen(BufferedInputStream.java:198)
+	at java.base/java.io.BufferedInputStream.fill(BufferedInputStream.java:259)
+	at java.base/java.io.BufferedInputStream.implRead(BufferedInputStream.java:325)
+	at java.base/java.io.BufferedInputStream.read(BufferedInputStream.java:312)
+	at java.base/java.io.DataInputStream.readUnsignedByte(DataInputStream.java:295)
+	at java.base/java.io.DataInputStream.readBoolean(DataInputStream.java:255)
+	at org.gradle.internal.serialize.InputStreamBackedDecoder.readBoolean(InputStreamBackedDecoder.java:73)
+	at org.gradle.launcher.daemon.registry.DaemonRegistryContent$Serializer.read(DaemonRegistryContent.java:117)
+	at org.gradle.launcher.daemon.registry.DaemonRegistryContent$Serializer.read(DaemonRegistryContent.java:113)
+	at org.gradle.cache.internal.FileBackedObjectHolder.deserialize(FileBackedObjectHolder.java:134)
+	at org.gradle.cache.internal.FileBackedObjectHolder$$Lambda/0x000001bb0190bcf0.get(Unknown Source)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.readFile(DefaultFileLockManager.java:209)
+	at org.gradle.cache.internal.OnDemandFileAccess.readFile(OnDemandFileAccess.java:43)
+	at org.gradle.cache.internal.FileBackedObjectHolder.get(FileBackedObjectHolder.java:49)
+	at org.gradle.cache.internal.FileIntegrityViolationSuppressingObjectHolderDecorator.get(FileIntegrityViolationSuppressingObjectHolderDecorator.java:35)
+	at org.gradle.launcher.daemon.registry.PersistentDaemonRegistry.getAll(PersistentDaemonRegistry.java:71)
+	at org.gradle.launcher.daemon.registry.PersistentDaemonRegistry.getDaemonsMatching(PersistentDaemonRegistry.java:116)
+	at org.gradle.launcher.daemon.registry.PersistentDaemonRegistry.getIdle(PersistentDaemonRegistry.java:84)
+	at org.gradle.launcher.daemon.server.CompatibleDaemonExpirationStrategy.checkExpiration(CompatibleDaemonExpirationStrategy.java:54)
+	at org.gradle.launcher.daemon.server.expiry.AllDaemonExpirationStrategy.checkExpiration(AllDaemonExpirationStrategy.java:47)
+	at org.gradle.launcher.daemon.server.expiry.AnyDaemonExpirationStrategy.checkExpiration(AnyDaemonExpirationStrategy.java:44)
+	at org.gradle.launcher.daemon.server.MasterExpirationStrategy.checkExpiration(MasterExpirationStrategy.java:76)
+	at org.gradle.launcher.daemon.server.Daemon$DaemonExpirationPeriodicCheck.run(Daemon.java:272)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:48)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:358)
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.runWith(Thread.java:1588)
+org.gradle.internal.event.ListenerNotificationException: Failed to notify output event listener.
+	at org.gradle.internal.event.AbstractBroadcastDispatch.dispatch(AbstractBroadcastDispatch.java:112)
+	at org.gradle.internal.event.AbstractBroadcastDispatch.dispatch(AbstractBroadcastDispatch.java:70)
+	at org.gradle.internal.event.BroadcastDispatch$CompositeDispatch.dispatch(BroadcastDispatch.java:380)
+	at org.gradle.internal.event.BroadcastDispatch$CompositeDispatch.dispatch(BroadcastDispatch.java:272)
+	at org.gradle.internal.event.ListenerBroadcast.dispatch(ListenerBroadcast.java:148)
+	at org.gradle.internal.event.ListenerBroadcast.dispatch(ListenerBroadcast.java:37)
+	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:92)
+	at jdk.proxy1/jdk.proxy1.$Proxy0.onOutput(Unknown Source)
+	at org.gradle.internal.logging.sink.OutputEventTransformer.invokeListener(OutputEventTransformer.java:113)
+	at org.gradle.internal.logging.sink.OutputEventTransformer.onOutput(OutputEventTransformer.java:106)
+	at org.gradle.internal.logging.sink.OutputEventRenderer.onOutput(OutputEventRenderer.java:435)
+	at org.gradle.internal.logging.sink.OutputEventListenerManager$1.onOutput(OutputEventListenerManager.java:36)
+	at org.gradle.internal.logging.slf4j.OutputEventListenerBackedLogger.log(OutputEventListenerBackedLogger.java:52)
+	at org.gradle.internal.logging.slf4j.BuildOperationAwareLogger.log(BuildOperationAwareLogger.java:141)
+	at org.gradle.internal.logging.slf4j.BuildOperationAwareLogger.error(BuildOperationAwareLogger.java:467)
+	at org.gradle.internal.logging.slf4j.OutputEventListenerBackedLogger.error(OutputEventListenerBackedLogger.java:25)
+	at org.gradle.launcher.daemon.server.Daemon$DaemonExpirationPeriodicCheck.run(Daemon.java:279)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:48)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:358)
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1575)
+Caused by: java.lang.OutOfMemoryError: Java heap space

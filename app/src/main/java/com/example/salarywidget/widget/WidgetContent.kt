@@ -84,7 +84,7 @@ fun WidgetContent(
                         .defaultWeight()
                         .height(8.dp),
                     color = ColorProvider(Color(0xFF4CAF50)),
-                    trackColor = ColorProvider(Color(0xFF333355))
+                    backgroundColor = ColorProvider(Color(0xFF333355))
                 )
                 Spacer(modifier = GlanceModifier.width(8.dp))
                 Text(
