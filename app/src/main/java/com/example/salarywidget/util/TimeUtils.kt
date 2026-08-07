@@ -18,9 +18,10 @@ object TimeUtils {
 
     /**
      * 将小时和分钟转换为 LocalTime
+     * 添加范围校验防止 DateTimeException
      */
     fun toLocalTime(hour: Int, minute: Int): LocalTime {
-        return LocalTime.of(hour, minute)
+        return LocalTime.of(hour.coerceIn(0, 23), minute.coerceIn(0, 59))
     }
 
     /**

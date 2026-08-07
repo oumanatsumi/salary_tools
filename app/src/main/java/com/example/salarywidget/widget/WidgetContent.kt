@@ -27,10 +27,10 @@ import com.example.salarywidget.domain.WorkStatus
  * Widget 内容布局（Glance Composable）
  * 4x2 桌面小组件
  *
- * Glance 使用受限的 Compose 子集，注意：
- * - 颜色用 ColorProvider 包装
- * - 对齐用 Alignment.Top / Alignment.Start 等（不是 Vertical.Top）
- * - LinearProgressIndicator 在 androidx.glance.appwidget 包下
+ * Glance API 注意事项：
+ * - Alignment 使用 Glance 自己的平坦 API（TopStart / Center 等）
+ * - background() 需要 ColorProvider 包装
+ * - ColorProvider 包装 Compose 的 Color 对象
  */
 @Composable
 fun WidgetContent(
@@ -40,10 +40,10 @@ fun WidgetContent(
     Column(
         modifier = GlanceModifier
             .fillMaxSize()
-            .background(Color(0xFF1A1A2E))
+            .background(ColorProvider(Color(0xFF1A1A2E)))
             .padding(16.dp),
-        verticalAlignment = Alignment.Top,
-        horizontalAlignment = Alignment.Start
+        horizontalAlignment = Alignment.Start,
+        verticalAlignment = Alignment.Top
     ) {
         // 标题行
         Text(

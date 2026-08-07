@@ -1,6 +1,0 @@
-To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.9/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
-Daemon will be stopped at the end of the build 
-Checking the license for package Android SDK Build-Tools 34 in E:\proj\salary-tools\.tools\android-sdk\licenses
-Warning: License for package Android SDK Build-Tools 34 not accepted.
-Checking the license for package Android SDK Platform 35 in E:\proj\salary-tools\.tools\android-sdk\licenses
-Warning: License for package Android SDK Platform 35 not accepted.
