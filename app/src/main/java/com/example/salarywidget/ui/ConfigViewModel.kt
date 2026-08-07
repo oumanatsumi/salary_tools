@@ -11,6 +11,8 @@ import com.example.salarywidget.domain.EarningsCalculator
 import com.example.salarywidget.domain.EarningsState
 import com.example.salarywidget.domain.SalaryConfig
 import com.example.salarywidget.util.TimeUtils
+import com.example.salarywidget.widget.SalaryWidget
+import androidx.glance.appwidget.updateAll
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -129,6 +131,13 @@ class ConfigViewModel(application: Application) : AndroidViewModel(application) 
             _settings.value = updatedSettings
             _isSaving.value = false
             _saveSuccess.value = true
+
+            // 保存后立即触发 Widget 更新
+            try {
+                SalaryWidget().updateAll(getApplication<Application>().applicationContext)
+            } catch (e: Exception) {
+                // Widget 可能还没被添加到桌面，忽略错误
+            }
         }
     }
 

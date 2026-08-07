@@ -39,7 +39,8 @@ class SalaryWidget : GlanceAppWidget() {
         var isConfigured = false
 
         try {
-            val settingsRepo = SettingsRepository(context)
+            val appContext = context.applicationContext
+            val settingsRepo = SettingsRepository(appContext)
             val settings = settingsRepo.settingsFlow.first()
 
             isConfigured = settings.isConfigured && settings.monthlySalary > 0
@@ -69,7 +70,7 @@ class SalaryWidget : GlanceAppWidget() {
                 earningsState = EarningsCalculator.calculate(config)
             }
         } catch (e: Exception) {
-            Log.e(TAG, "Failed to compute widget state", e)
+            Log.e(TAG, "Failed to compute widget state: ${e.javaClass.simpleName}: ${e.message}", e)
             // earningsState stays as empty(), isConfigured stays false
         }
 

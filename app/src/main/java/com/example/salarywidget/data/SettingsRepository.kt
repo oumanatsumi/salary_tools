@@ -9,19 +9,28 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 /**
+ * 全局 DataStore 单例
+ * 使用顶层属性确保全局唯一实例，不受 Context 包装器影响
+ */
+private val Context.salaryDataStore: DataStore<Preferences> by preferencesDataStore(
+    name = "salary_settings"
+)
+
+/**
  * 用户设置的 DataStore 仓库
  * 负责读取和持久化所有用户配置
+ *
+ * 关键：始终使用 applicationContext 访问 DataStore，
+ * 避免因 Glance/Receiver 传入的 Context 包装器不同导致多实例问题
  */
-class SettingsRepository(private val context: Context) {
+class SettingsRepository(context: Context) {
 
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
-        name = "salary_settings"
-    )
+    private val appContext = context.applicationContext
 
     /**
      * 观察设置变化（Flow），设置变更时自动通知下游
      */
-    val settingsFlow: Flow<UserSettings> = context.dataStore.data.map { prefs ->
+    val settingsFlow: Flow<UserSettings> = appContext.salaryDataStore.data.map { prefs ->
         UserSettings(
             salaryMode = prefs[PreferencesKeys.SALARY_MODE]
                 ?.let { runCatching { SalaryMode.valueOf(it) }.getOrNull() }
@@ -59,7 +68,7 @@ class SettingsRepository(private val context: Context) {
      * 保存设置到 DataStore
      */
     suspend fun saveSettings(settings: UserSettings) {
-        context.dataStore.edit { prefs ->
+        appContext.salaryDataStore.edit { prefs ->
             prefs[PreferencesKeys.SALARY_MODE] = settings.salaryMode.name
             prefs[PreferencesKeys.MONTHLY_SALARY] = settings.monthlySalary
 
