@@ -1,6 +1,8 @@
 package com.example.salarywidget.domain
 
+import java.time.DayOfWeek
 import java.time.LocalTime
+import java.time.LocalDate
 
 /**
  * 核心收入计算器
@@ -13,9 +15,14 @@ object EarningsCalculator {
      *
      * @param config 薪资配置
      * @param now 当前时间（传入参数便于测试）
+     * @param today 当前日期（传入参数便于测试/模拟休息日）
      * @return 当前收入状态
      */
-    fun calculate(config: SalaryConfig, now: LocalTime = LocalTime.now()): EarningsState {
+    fun calculate(
+        config: SalaryConfig,
+        now: LocalTime = LocalTime.now(),
+        today: LocalDate = LocalDate.now()
+    ): EarningsState {
         val workStartMinutes = config.workStart.hour * 60 + config.workStart.minute
         val workEndMinutes = config.workEnd.hour * 60 + config.workEnd.minute
         val lunchStartMinutes = config.lunchStart.hour * 60 + config.lunchStart.minute
@@ -24,7 +31,7 @@ object EarningsCalculator {
 
         val totalEffectiveMinutes = config.effectiveWorkMinutesPerDay
 
-        // 如果有效工作时间为 0，返回空状态
+        // 无效配置
         if (totalEffectiveMinutes <= 0 || config.dailySalary <= 0) {
             return EarningsState(
                 currentEarnings = 0.0,
@@ -35,6 +42,29 @@ object EarningsCalculator {
                 remainingEarnings = 0.0,
                 status = WorkStatus.BEFORE_WORK,
                 statusText = "配置有误"
+            )
+        }
+
+        // 休息日检测（周六/周日）
+        val dayOfWeek = today.dayOfWeek
+        val isWorkday = dayOfWeek != DayOfWeek.SATURDAY && dayOfWeek != DayOfWeek.SUNDAY
+
+        if (!isWorkday) {
+            val dailySalary = config.dailySalary
+            val effectiveWorkHours = totalEffectiveMinutes / 60.0
+            val hourlyRate = if (effectiveWorkHours > 0) dailySalary / effectiveWorkHours else 0.0
+            val perSecondRate = config.perSecondRate
+
+            return EarningsState(
+                currentEarnings = 0.0,
+                dailyTotal = dailySalary,
+                hourlyRate = hourlyRate,
+                perSecondRate = perSecondRate,
+                workdayProgress = 0f,
+                remainingEarnings = dailySalary,
+                status = WorkStatus.DAY_OFF,
+                statusText = "今日休息",
+                isWorkday = false
             )
         }
 
@@ -61,13 +91,13 @@ object EarningsCalculator {
             nowMinutes >= workEndMinutes -> Triple(
                 WorkStatus.AFTER_WORK,
                 totalEffectiveMinutes,
-                "今日已完成 ✅"
+                "今日已完成"
             )
 
             // 午休中
             nowMinutes >= lunchStartMinutes && nowMinutes < lunchEndMinutes -> Triple(
                 WorkStatus.LUNCH_BREAK,
-                lunchStartMinutes - workStartMinutes,  // 午休前工作的分钟数
+                lunchStartMinutes - workStartMinutes,
                 "午休中…"
             )
 
@@ -81,7 +111,6 @@ object EarningsCalculator {
             // 工作中（午休后）
             else -> Triple(
                 WorkStatus.WORKING,
-                // 上午工作分钟数 + 午休后已工作分钟数
                 (lunchStartMinutes - workStartMinutes) + (nowMinutes - lunchEndMinutes),
                 "赚钱中…"
             )
@@ -101,7 +130,8 @@ object EarningsCalculator {
             workdayProgress = progress.coerceIn(0f, 1f),
             remainingEarnings = remainingEarnings,
             status = status,
-            statusText = statusText
+            statusText = statusText,
+            isWorkday = true
         )
     }
 }

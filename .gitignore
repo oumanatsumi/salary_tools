@@ -13,3 +13,6 @@ local.properties
 
 # 本地工具目录（SDK、Gradle 等）
 /.tools/
+
+# Build logs
+build_log.txt

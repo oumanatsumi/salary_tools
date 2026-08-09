@@ -12,7 +12,8 @@ data class EarningsState(
     val workdayProgress: Float,        // 工作日进度 0.0~1.0
     val remainingEarnings: Double,     // 今日剩余可赚金额
     val status: WorkStatus,            // 当前工作状态
-    val statusText: String             // 状态文案
+    val statusText: String,            // 状态文案
+    val isWorkday: Boolean = true      // 是否是工作日（休息日显示不同画面）
 ) {
     /**
      * 格式化的当前收入
@@ -65,5 +66,6 @@ enum class WorkStatus {
     BEFORE_WORK,    // 上班前
     WORKING,        // 工作中
     LUNCH_BREAK,    // 午休中
-    AFTER_WORK      // 下班后
+    AFTER_WORK,     // 下班后
+    DAY_OFF         // 休息日（周末/假日）
 }
